@@ -27,6 +27,8 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
   const apiUrl = options.domains.api
   const bitpayUrl = options.domains.bitpay
   const everypayUrl = options.domains.everypay
+  const checkoutUrl = options.domains.checkout
+  const stripeUrl = options.domains.stripe
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
@@ -75,8 +77,10 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
+      checkoutUrl,
       everypayUrl,
       nabuUrl,
+      stripeUrl,
       ...http
     }),
     ...swap({
