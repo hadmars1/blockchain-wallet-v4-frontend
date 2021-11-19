@@ -77,3 +77,7 @@ export const getCeloEurRewards = (state: RootState) =>
 
 export const getPollForMagicLinkData = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
+
+// send the card to new payment processors feature flag
+export const getNewPaymentProcessors = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'newPaymentProcessors']))
