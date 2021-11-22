@@ -426,7 +426,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const confirmOrderPoll = function* ({ payload }: ReturnType<typeof A.confirmOrderPoll>) {
     const { RETRY_AMOUNT, SECONDS } = POLLING
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, OrderConfirmCheck, payload.id)
-    yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+    yield put(actions.form.stopSubmit('bsCheckoutConfirm'))
     yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     yield put(A.fetchOrders())
   }
@@ -435,7 +435,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { order, paymentMethodId } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.startSubmit('bsCheckoutConfirm'))
       const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
@@ -488,7 +488,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Refresh recurring buy list to check for new pending RBs for next step
       yield put(actions.components.recurringBuy.fetchRegisteredList())
 
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.stopSubmit('bsCheckoutConfirm'))
 
       if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
@@ -499,8 +499,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setStep({ order, step: 'CHECKOUT_CONFIRM' }))
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+      yield put(actions.form.startSubmit('bsCheckoutConfirm'))
+      yield put(actions.form.stopSubmit('bsCheckoutConfirm', { _error: error }))
     }
   }
 
@@ -508,14 +508,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const order = S.getBSOrder(yield select())
       if (!order) throw new Error(NO_ORDER_EXISTS)
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.startSubmit('bsCheckoutConfirm'))
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as BSOrderType)
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.stopSubmit('bsCheckoutConfirm'))
       yield put(A.fetchOrders())
       yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+      yield put(actions.form.stopSubmit('bsCheckoutConfirm', { _error: error }))
     }
   }
 
@@ -1319,7 +1319,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         currency
       )
       yield put(A.fetchCrossBorderLimitsSuccess(limitsResponse))
-    } catch (e: any) {
+    } catch (e) {
       yield put(A.fetchCrossBorderLimitsFailure(e))
     }
   }
