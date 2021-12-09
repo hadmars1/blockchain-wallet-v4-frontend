@@ -198,12 +198,17 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.walletOptions.getFeatureSignupCountry
       )).getOrElse(false)
       if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
-        // create nabu user
-        yield call(createUser)
-        // store initial address in case of US state we add prefix
-        const userState = country === 'US' ? `US-${state}` : state
-        yield call(api.setUserInitialAddress, country, userState)
-        yield call(coreSagas.settings.fetchSettings)
+        try {
+          // create nabu user
+          yield call(createUser)
+          // store initial address in case of US state we add prefix
+          const userState = country === 'US' ? `US-${state}` : state
+          yield call(api.setUserInitialAddress, country, userState)
+          yield call(coreSagas.settings.fetchSettings)
+        } catch (e) {
+          // failed to create nabu user (most likely already exists)
+          console.error('Nabu user creation failed:', e)
+        }
       }
 
       // We are checking wallet metadata to see if mnemonic is verified
@@ -215,7 +220,6 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkDataErrors)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
-      // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
