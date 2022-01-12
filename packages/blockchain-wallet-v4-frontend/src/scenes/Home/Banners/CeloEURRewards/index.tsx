@@ -88,8 +88,8 @@ const CEURRewards = ({ cacheActions, showBanner }: Props) => {
           </VerbText>
           <Description>
             <FormattedMessage
-              id='layouts.wallet.header.announcements.ceur.limited_time.description'
-              defaultMessage='Buy 25 {displaySymbol}, get a 10 {displaySymbol} bonus, and earn 16% in annual rewards.'
+              id='layouts.wallet.header.announcements.ceur.limited_time.description-euro'
+              defaultMessage='Buy €25 {displaySymbol} and a Get €10 {displaySymbol} bonus, and earn 16% in annual rewards.'
               values={{ displaySymbol }}
             />
           </Description>

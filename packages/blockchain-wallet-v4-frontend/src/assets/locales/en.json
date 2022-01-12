@@ -621,7 +621,7 @@
   "interest.withdrawal.validation.belowminamount": "Amount is below the minimum withdrawal amount of {withdrawalMin} {currency}.",
   "layouts.wallet.header.Sign Out": "Sign Out",
   "layouts.wallet.header.announcements.ceur.limited_time": "Limited-Time {displaySymbol} Bonus and Rewards",
-  "layouts.wallet.header.announcements.ceur.limited_time.description": "Buy 25 {displaySymbol}, get a 10 {displaySymbol} bonus, and earn 16% in annual rewards.",
+  "layouts.wallet.header.announcements.ceur.limited_time.description-euro": "Buy €25 {displaySymbol} and a Get €10 {displaySymbol} bonus, and earn 16% in annual rewards.",
   "layouts.wallet.header.announcements.coin_rename.description": "Heads up: {symbol} has renamed to {displaySymbol}. All balances are unaffected.",
   "layouts.wallet.header.announcements.emailreminder": "Confirm your email address to properly secure your account",
   "layouts.wallet.header.announcements.emailreminder.change": "Change Email",
