@@ -79,7 +79,9 @@ export default ({ api, coreSagas, networks }) => {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
-    const exchangeURL = magicLinkData?.exchange_auth_url
+    const exchangeURLFromData = magicLinkData.exchange_auth_url as string
+    const splitExchangeUrl = exchangeURLFromData.split('redirect=')
+
     yield put(startSubmit(LOGIN_FORM))
     // JUST FOR ANALYTICS PURPOSES
     if (code) {
@@ -104,7 +106,11 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
         yield put(stopSubmit(LOGIN_FORM))
       } else {
-        window.open(`${exchangeURL}${jwtToken}`, '_self', 'noreferrer')
+        window.open(
+          `${splitExchangeUrl[0]}jwt=${jwtToken}${splitExchangeUrl[1]}`,
+          '_self',
+          'noreferrer'
+        )
       }
     } catch (e) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
