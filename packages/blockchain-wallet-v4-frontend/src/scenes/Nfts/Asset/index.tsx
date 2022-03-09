@@ -16,7 +16,6 @@ import {
   Color,
   Icon as BlockchainIcon,
   Image,
-  Link,
   SpinningLoader,
   TabMenu,
   TabMenuItem,
@@ -250,7 +249,7 @@ const AddressDisplay = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 5em;
+  width: 7em;
 `
 const TokenDisplay = styled.div`
   text-overflow: ellipsis;
@@ -450,7 +449,11 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       </CustomLink>
                       <SocialLinksWrap>
                         {asset?.data?.asset?.collection?.telegram_url && (
-                          <SocialLinks href={asset?.data?.asset?.collection?.telegram_url}>
+                          <SocialLinks
+                            href={`${'https://t.me/'}${
+                              asset?.data?.asset?.collection?.telegram_url
+                            }`}
+                          >
                             <Icon name={IconName.PHONE} color={colors.grey400} />
                           </SocialLinks>
                         )}
@@ -585,23 +588,14 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   src={asset?.data?.asset?.creator?.profile_img_url}
                                 />
                               )}
-                              {asset?.data?.asset?.creator?.address ? (
-                                <Link
-                                  href={`https://www.blockchain.com/eth/address/${asset.data.asset.creator.address}`}
-                                  target='_blank'
-                                >
-                                  <CreatorOwnerAddress>
-                                    <AddressDisplay>
-                                      {asset.data.asset.creator.address}
-                                    </AddressDisplay>
-                                    {asset?.data?.asset?.creator?.address?.substring(
-                                      asset?.data?.asset?.creator?.address.length - 4
-                                    )}
-                                  </CreatorOwnerAddress>
-                                </Link>
-                              ) : (
-                                <Text>Not Available</Text>
-                              )}
+                              <CreatorOwnerAddress>
+                                <AddressDisplay>
+                                  {asset?.data?.asset?.creator?.address || 'Not Available '}
+                                </AddressDisplay>
+                                {asset?.data?.asset?.creator?.address?.substring(
+                                  asset?.data?.asset?.creator?.address.length - 4
+                                )}
+                              </CreatorOwnerAddress>
                             </div>
                           </div>
                           <div style={{ display: 'block', width: '50%' }}>
@@ -614,23 +608,14 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
                                 src={asset?.data?.asset?.owner?.profile_img_url || ''}
                               />{' '}
-                              {asset?.data?.asset?.owner?.address ? (
-                                <Link
-                                  href={`https://www.blockchain.com/eth/address/${asset.data.asset.owner.address}`}
-                                  target='_blank'
-                                >
-                                  <CreatorOwnerAddress>
-                                    <AddressDisplay>
-                                      {asset.data.asset.owner.address}
-                                    </AddressDisplay>
-                                    {asset?.data?.asset?.owner?.address?.substring(
-                                      asset?.data?.asset?.owner?.address.length - 4
-                                    )}
-                                  </CreatorOwnerAddress>
-                                </Link>
-                              ) : (
-                                <Text>Not Available</Text>
-                              )}
+                              <CreatorOwnerAddress>
+                                <AddressDisplay>
+                                  {asset?.data?.asset?.owner?.address}
+                                </AddressDisplay>
+                                {asset?.data?.asset?.owner?.address?.substring(
+                                  asset?.data?.asset?.owner?.address.length - 4
+                                )}
+                              </CreatorOwnerAddress>
                             </div>
                           </div>
                         </CreatorOwnerBox>
@@ -680,26 +665,16 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           <AdditionalDetails>
                             <Detail>
                               <Text>Contract Address:</Text>
-
-                              {asset?.data?.asset?.contract_address ? (
-                                <Link
-                                  href={`https://www.blockchain.com/eth/address/${asset?.data?.asset?.contract_address}`}
-                                  target='_blank'
-                                >
-                                  <b>
-                                    <CreatorOwnerAddress style={{ display: 'flex' }}>
-                                      <AddressDisplay>
-                                        {asset?.data?.asset?.contract_address}
-                                      </AddressDisplay>
-                                      {asset?.data?.asset?.contract_address?.substring(
-                                        asset?.data?.asset?.contract_address.length - 4
-                                      )}
-                                    </CreatorOwnerAddress>
-                                  </b>
-                                </Link>
-                              ) : (
-                                <Text>Not Available</Text>
-                              )}
+                              <b>
+                                <div style={{ display: 'flex' }}>
+                                  <AddressDisplay>
+                                    {asset?.data?.asset?.contract_address}
+                                  </AddressDisplay>
+                                  {asset?.data?.asset?.contract_address?.substring(
+                                    asset?.data?.asset?.contract_address.length - 4
+                                  )}
+                                </div>
+                              </b>
                             </Detail>
                             <Divider />
                             <Detail>
